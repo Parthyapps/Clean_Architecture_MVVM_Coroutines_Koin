@@ -2,6 +2,7 @@ package com.clean_arch_mvvm_coroutines.di
 
 import com.clean_arch_mvvm_coroutines.BuildConfig
 import com.clean_arch_mvvm_coroutines.data.remote.api.ApiService
+import com.clean_arch_mvvm_coroutines.data.remote.useCase.GetPostsUseCase
 import com.clean_arch_mvvm_coroutines.repository.AppRepository
 import com.clean_arch_mvvm_coroutines.repository.repoImpl.AppRepoImpl
 import com.squareup.moshi.Moshi
@@ -49,4 +50,8 @@ fun createService(retrofit: Retrofit): ApiService {
 
 fun createPostRepository(apiService: ApiService): AppRepository {
     return AppRepoImpl(apiService)
+}
+
+fun createGetPostsUseCase(postsRepository: AppRepository): GetPostsUseCase {
+    return GetPostsUseCase(postsRepository)
 }
