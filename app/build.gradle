@@ -37,7 +37,7 @@ android {
         def BASE_URL = '"https://jsonplaceholder.typicode.com"'
 
         release {
-            debuggable false
+            debuggable true
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField STRING_VER, URL, BASE_URL
@@ -45,7 +45,6 @@ android {
 
         debug {
             debuggable true
-            minifyEnabled true
             buildConfigField STRING_VER, URL, BASE_URL
         }
     }
@@ -89,14 +88,12 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-moshi:$converter_moshi_version"
     implementation "com.squareup.moshi:moshi:$moshi_version"
-    // kapt "com.squareup.moshi:moshi-kotlin-codegen:$moshi_version"
+    kapt "com.squareup.moshi:moshi-kotlin-codegen:$moshi_version"
     implementation 'com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.2'
 
     //Koin
     implementation "org.koin:koin-core:$koin_version"
-    implementation "org.koin:koin-android:$koin_version"
-    implementation "org.koin:koin-android-viewmodel:$koin_version"
-    implementation "org.koin:koin-android-architecture:$koin_architecture_version"
+    implementation "org.koin:koin-androidx-viewmodel:$koin_version"
     testImplementation "org.koin:koin-test:$koin_version"
 
     //Coroutines
@@ -105,7 +102,6 @@ dependencies {
 
     // Test
     testImplementation 'junit:junit:4.13.2'
-    testImplementation "org.koin:koin-test:$koin_version"
     testImplementation "io.mockk:mockk:$mockk_version"
     androidTestImplementation 'androidx.test:runner:1.4.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'

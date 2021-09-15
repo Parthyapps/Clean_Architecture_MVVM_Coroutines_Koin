@@ -19,7 +19,7 @@ val NetworkModule = module {
 
     single { createService(get()) }
 
-    single { createRetrofit(get(), BuildConfig.BASE_URL) }
+    single { createRetrofitClient(get()) }
 
     single { createOkHttpClient() }
 
@@ -37,9 +37,9 @@ fun createOkHttpClient(): OkHttpClient {
         .addInterceptor(httpLoggingInterceptor).build()
 }
 
-fun createRetrofit(okHttpClient: OkHttpClient, url: String): Retrofit {
+fun createRetrofitClient(okHttpClient: OkHttpClient): Retrofit {
     return Retrofit.Builder()
-        .baseUrl(url)
+        .baseUrl(BuildConfig.BASE_URL)
         .client(okHttpClient)
         .addConverterFactory(MoshiConverterFactory.create()).build()
 }

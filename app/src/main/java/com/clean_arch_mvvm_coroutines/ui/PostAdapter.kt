@@ -5,14 +5,15 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.clean_arch_mvvm_coroutines.data.remote.model.Post
 import com.clean_arch_mvvm_coroutines.databinding.PostItemHolderBinding
-import kotlin.properties.Delegates
 
 class PostsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    var mPostList: List<Post> by Delegates.observable(emptyList()) { _, _, _ ->
+    private var mData = listOf<Post>()
+
+    fun setData(data: List<Post>?) {
+        mData = data!!
         notifyDataSetChanged()
     }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return PostViewHolder(
             PostItemHolderBinding.inflate(
@@ -23,18 +24,24 @@ class PostsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     }
 
-    override fun getItemCount(): Int = if (mPostList.isNullOrEmpty()) 0 else mPostList.size
+    override fun getItemCount(): Int = if (mData.isNullOrEmpty()) 0 else mData.size
 
-    private fun getItem(position: Int): Post = mPostList[position]
+    private fun getItem(position: Int): Post = mData[position]
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        (holder as PostViewHolder).onBind(getItem(position))
+        val viewHolder = holder as PostViewHolder
+        viewHolder.setBind(mData[position])
+
     }
 
-    private inner class PostViewHolder(private val viewDataBinding: PostItemHolderBinding) :
+
+
+    inner class PostViewHolder(private val viewDataBinding: PostItemHolderBinding) :
         RecyclerView.ViewHolder(viewDataBinding.root) {
-        fun onBind(post: Post) {
-            //  viewDataBinding.post = post
+        fun setBind(post: Post) {
+            viewDataBinding.postTitleTextView.text = post.title
+            viewDataBinding.postBodyTextView.text = post.body
+
         }
     }
 }
